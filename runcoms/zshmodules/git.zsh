@@ -46,8 +46,8 @@ fork () {
     git fork || return 1
 
     # Rename to origin/upstream instead of reem/origin
-    git rename origin upstream
-    git rename reem origin
+    git remote rename origin upstream
+    git remote rename reem origin
 }
 
 create () {
