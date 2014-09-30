@@ -14,9 +14,3 @@
   fi
 } &!
 
-# Print a random, hopefully interesting, adage.
-if (( $+commands[fortune] )); then
-  figlet -f slant Hey Jonathan!
-  print
-fi
-
