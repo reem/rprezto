@@ -5,5 +5,6 @@ rust-create () {
     git init
 }
 
-rustup () { curl https://static.rust-lang.org/rustup.sh | sudo bash }
+# Must be run as sudo
+rustup () { curlish https://static.rust-lang.org/rustup.sh bash }
 

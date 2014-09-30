@@ -19,3 +19,21 @@ scd () { cd $* > /dev/null }
 
 srm () { rm -f $* }
 
+# Safer curl | sh
+curlish () {
+    if [ $# != 2 ]; then
+        echo "Usage: curlish <FROM> <CMD>"
+        return 1
+    fi
+
+    cmd=$2
+
+    file=$(mktemp -t curlish) || { echo "Failed creating temp file"; return; }
+    curl -s "$1" >> $file || { "Failed to curl file"; srm $file; return; }
+
+    $cmd $file
+
+    # Always
+    srm $file
+}
+
