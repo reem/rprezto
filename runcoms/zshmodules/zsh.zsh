@@ -11,11 +11,11 @@ replace () {
 
 cl () { clear; ls }
 
-alias xa="xargs -n1"
+alias rimraf="rm -rf"
 
 chpwd () { ls }
 
-scd () { cd $* > /dev/null }
+scd () { quiet cd $* }
 
 srm () { rm -f $* }
 
@@ -35,5 +35,9 @@ curlish () {
 
     # Always
     srm $file
+}
+
+quiet () {
+    $* 2>&1 >/dev/null
 }
 
