@@ -15,6 +15,7 @@ alias gh='git hist'
 alias gha='git hist --all'
 alias gpu='git pull'
 alias gpur='git pull --rebase'
+alias gpurum='git pull --rebase upstream master'
 alias gpo='git push origin'
 alias gpom='git push origin master'
 
