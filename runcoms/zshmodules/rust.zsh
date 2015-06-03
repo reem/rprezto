@@ -8,11 +8,12 @@ rust-create () {
     rimraf .git README.md
 
     # Insert name and description.
-    replace "project-name" "$name" Cargo.toml README.in.md
-    replace "project-description" "$description" Cargo.toml README.in.md
+    replace "project-name" "$name" Cargo.toml README.in.md src/lib.rs .travis.yml
+    replace "project-description" "$description" Cargo.toml README.in.md src/lib.rs
 
     # Move template files to final locations.
     mv README.in.md README.md
+    mv .travis.yml.in .travis.yml
 
     # Go!
     quiet git init
