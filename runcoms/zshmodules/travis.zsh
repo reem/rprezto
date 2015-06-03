@@ -1,3 +1,3 @@
 # added by travis gem
-[ -f /Users/Jonathan/.travis/travis.sh ] && source /Users/Jonathan/.travis/travis.sh
+[ -f /Users/reem/.travis/travis.sh ] && source /Users/reem/.travis/travis.sh
 
