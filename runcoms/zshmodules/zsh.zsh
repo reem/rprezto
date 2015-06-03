@@ -1,4 +1,7 @@
 # General zsh Aliases
+#
+
+fignore+=(.lock)
 
 replace () {
     local find_this=$1
@@ -11,7 +14,7 @@ replace () {
 
 cl () { clear; ls }
 
-alias rimraf="rm -rf"
+rimraf () { rm -rf $* }
 
 chpwd () { ls }
 
