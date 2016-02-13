@@ -44,3 +44,17 @@ quiet () {
     $* 2>&1 >/dev/null
 }
 
+w () {
+    local target=$1
+    shift
+
+    local cmd=$1
+    shift
+
+    local rest=$*
+
+    j $target
+    cl
+    watch $cmd $~rest
+}
+
