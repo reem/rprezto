@@ -18,6 +18,8 @@ alias gpur='git pull --rebase'
 alias gpurum='git pull --rebase upstream master'
 alias gpo='git push origin'
 alias gpom='git push origin master'
+alias gpum='git push upstream master'
+alias gre='git reset'
 
 # Hub aliases
 alias gpr="git pull-request"
