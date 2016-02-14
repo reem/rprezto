@@ -34,13 +34,17 @@ function prompt_paradox_start_segment {
   [[ -n "$3" ]] && print -n "$3"
 }
 
+function prompt_paradox_command_prompt {
+  print -n "%f"
+}
+
 function prompt_paradox_end_segment {
   if [[ -n "$_prompt_paradox_current_bg" ]]; then
     print -n " %k%F{$_prompt_paradox_current_bg}$_prompt_paradox_segment_separator"
   else
     print -n "%k"
   fi
-  print -n "%f"
+  prompt_paradox_command_prompt
   _prompt_paradox_current_bg=''
 }
 
@@ -89,26 +93,70 @@ function prompt_paradox_precmd {
   setopt LOCAL_OPTIONS
   unsetopt XTRACE KSH_ARRAYS
 
+  _prompt_paradox_start_time=$SECONDS
+
   # Format PWD.
   prompt_paradox_pwd
 
+  # Define prompts.
+  PROMPT=' ${(e)$(prompt_paradox_command_prompt)} ${editor_info[keymap]} '
+
+  # Kill the old process of slow commands if it is still running.
+  if (( _prompt_paradox_precmd_async_pid > 0 )); then
+    kill -KILL "$_prompt_paradox_precmd_async_pid" &>/dev/null
+  fi
+
+  # Compute slow commands in the background.
+  trap prompt_paradox_precmd_show_info WINCH
+  prompt_paradox_precmd_async_get_info &!
+  _prompt_paradox_precmd_async_pid=$!
+}
+
+function prompt_paradox_precmd_async_get_info {
   # Get Git repository information.
   if (( $+functions[git-info] )); then
     git-info
+    typeset -p git_info >! "$_prompt_paradox_precmd_async_data"
   fi
 
-  # Calculate and print the elapsed time.
-  prompt_paradox_print_elapsed_time
+  # Signal completion to parent process.
+  kill -WINCH $$
+}
+
+function prompt_paradox_precmd_show_info {
+  if (( _prompt_paradox_precmd_async_pid > 0 )); then
+    # Append Git status.
+    if [[ -s "$_prompt_paradox_precmd_async_data" ]]; then
+      alias typeset='typeset -g'
+      source "$_prompt_paradox_precmd_async_data"
+      PROMPT='
+${(e)$(prompt_paradox_build_prompt)}
+  ${editor_info[keymap]} '
+      unalias typeset
+    fi
+
+    # Reset PID.
+    _prompt_paradox_precmd_async_pid=0
+
+    # Redisplay prompt.
+    zle && zle reset-prompt
+
+    # Calculate and print the elapsed time.
+    prompt_paradox_print_elapsed_time
+  fi
 }
 
 function prompt_paradox_preexec {
-  _prompt_paradox_start_time="$SECONDS"
+  _prompt_paradox_start_time=$SECONDS
 }
 
 function prompt_paradox_setup {
   setopt LOCAL_OPTIONS
   unsetopt XTRACE KSH_ARRAYS
   prompt_opts=(cr percent subst)
+
+  _prompt_paradox_precmd_async_pid=0
+  _prompt_paradox_precmd_async_data="${TMPPREFIX}-prompt_paradox_data"
 
   # Load required functions.
   autoload -Uz add-zsh-hook
@@ -145,7 +193,7 @@ function prompt_paradox_setup {
 
   # Define prompts.
   PROMPT='
-${(e)$(prompt_paradox_build_prompt)}
+${(e)$(prompt_paradox_command_prompt)}
  ${editor_info[keymap]} '
   RPROMPT='%F{blue}[%F{green}%D{%H:%M:%S}%F{blue}]%f'
   SPROMPT='zsh: correct %F{red}%R%f to %F{green}%r%f [nyae]? '
