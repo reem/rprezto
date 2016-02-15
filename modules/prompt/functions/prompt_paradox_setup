@@ -71,29 +71,29 @@ function prompt_paradox_pwd {
 }
 
 function prompt_paradox_print_elapsed_time {
-  local end_time=$(( SECONDS - _prompt_paradox_start_time ))
-  local hours minutes seconds remainder
+  if [[ -n "$_prompt_paradox_start_time" ]]; then
+    local end_time=$(( SECONDS - _prompt_paradox_start_time ))
+    local hours minutes seconds remainder
 
-  if (( end_time >= 3600 )); then
-    hours=$(( end_time / 3600 ))
-    remainder=$(( end_time % 3600 ))
-    minutes=$(( remainder / 60 ))
-    seconds=$(( remainder % 60 ))
-    print -P "%B%F{red}>>> elapsed time ${hours}h${minutes}m${seconds}s%b"
-  elif (( end_time >= 60 )); then
-    minutes=$(( end_time / 60 ))
-    seconds=$(( end_time % 60 ))
-    print -P "%B%F{yellow}>>> elapsed time ${minutes}m${seconds}s%b"
-  elif (( end_time > 10 )); then
-    print -P "%B%F{green}>>> elapsed time ${end_time}s%b"
+    if (( end_time >= 3600 )); then
+      hours=$(( end_time / 3600 ))
+      remainder=$(( end_time % 3600 ))
+      minutes=$(( remainder / 60 ))
+      seconds=$(( remainder % 60 ))
+      print -P "%B%F{red}>>> elapsed time ${hours}h${minutes}m${seconds}s%b"
+    elif (( end_time >= 60 )); then
+      minutes=$(( end_time / 60 ))
+      seconds=$(( end_time % 60 ))
+      print -P "%B%F{yellow}>>> elapsed time ${minutes}m${seconds}s%b"
+    elif (( end_time > 10 )); then
+      print -P "%B%F{green}>>> elapsed time ${end_time}s%b"
+    fi
   fi
 }
 
 function prompt_paradox_precmd {
   setopt LOCAL_OPTIONS
   unsetopt XTRACE KSH_ARRAYS
-
-  _prompt_paradox_start_time=$SECONDS
 
   # Format PWD.
   prompt_paradox_pwd
@@ -105,6 +105,14 @@ function prompt_paradox_precmd {
   if (( _prompt_paradox_precmd_async_pid > 0 )); then
     kill -KILL "$_prompt_paradox_precmd_async_pid" &>/dev/null
   fi
+
+  # Calculate and print the elapsed time.
+  prompt_paradox_print_elapsed_time
+
+  # Reset the time even if we aren't running a command so that
+  # we don't get elapsed time printouts if we just don't run
+  # commands.
+  _prompt_paradox_start_time=''
 
   # Compute slow commands in the background.
   trap prompt_paradox_precmd_show_info WINCH
@@ -140,9 +148,6 @@ ${(e)$(prompt_paradox_build_prompt)}
 
     # Redisplay prompt.
     zle && zle reset-prompt
-
-    # Calculate and print the elapsed time.
-    prompt_paradox_print_elapsed_time
   fi
 }
 
