@@ -58,3 +58,7 @@ w () {
     watch $cmd $~rest
 }
 
+rw () {
+    w $1 'cargo test' 'src/**/**.rs'
+}
+
