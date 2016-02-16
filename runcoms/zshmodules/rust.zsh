@@ -12,16 +12,10 @@ rust-create () {
     replace "project-description" "$description" Cargo.toml README.in.md src/lib.rs
 
     # Move template files to final locations.
-    mv README.in.md README.md
-    mv .travis.yml.in .travis.yml
+    mv -f README.in.md README.md
 
     # Go!
     quiet git init
     ls
-}
-
-# Must be run as sudo
-rustup () {
-    curlish https://static.rust-lang.org/rustup.sh bash
 }
 
