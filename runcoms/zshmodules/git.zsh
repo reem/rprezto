@@ -24,6 +24,10 @@ alias gre='git reset'
 # Hub aliases
 alias gpr="git pull-request"
 
+gst () {
+    pbpaste | gist -c
+}
+
 clone () {
     if [ $# -lt 1 ]; then
         echo "Usage: clone <REMOTE> <PLACE_HERE?>"
