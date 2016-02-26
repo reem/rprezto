@@ -26,9 +26,9 @@ fi
 alias modules="${ZDOTDIR:-$HOME}/.zprezto/runcoms/zshmodules"
 
 # Source vars first, so as to not break other things.
-source "${ZDOTDIR:-$HOME}/.zprezto/runcoms/zshmodules/vars.zsh"
+source "${ZDOTDIR:-$HOME}/.zprezto/runcoms/vars.zsh"
 
-# Source all modules.
+# Source all other modules.
 for module in `find ${ZDOTDIR:-$HOME}/.zprezto/runcoms/zshmodules -type f -name *.zsh`; do
     source $module
 done
