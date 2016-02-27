@@ -55,10 +55,10 @@ w () {
 
     j $target
     cl
-    watch $cmd $~rest
+    watch $cmd $~=rest
 }
 
 rw () {
-    w $1 'cargo test' 'src/**/**.rs'
+    w $1 'cargo test' Cargo.toml 'src/**/**.rs'
 }
 
