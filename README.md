@@ -22,6 +22,9 @@ Installation is the same as for Prezto, but I've replaced the relevant URLs:
 Prezto will work with any recent release of Zsh, but the minimum required
 version is 4.3.17.
 
+By default installs to $HOME, can be set to install elsewhere by setting
+$ZDOTDIR.
+
   1. Launch Zsh:
 
         zsh
@@ -30,17 +33,13 @@ version is 4.3.17.
 
         git clone --recursive https://github.com/reem/rprezto.git "${ZDOTDIR:-$HOME}/.zprezto"
 
-  3. Create a new Zsh configuration by copying the Zsh configuration files
-     provided:
+  3. Create a new Zsh configuration by linking the Zsh configuration files provided:
 
-        setopt EXTENDED_GLOB
-        for rcfile in "${ZDOTDIR:-$HOME}"/.zprezto/runcoms/^README.md(.N); do
-          ln -s "$rcfile" "${ZDOTDIR:-$HOME}/.${rcfile:t}"
-        done
+        zsh "${ZDOTDIR:-$HOME}"/link.zsh
 
   4. Set Zsh as your default shell:
 
-        chsh -s /bin/zsh
+        chsh -s `which zsh`
 
   5. Open a new Zsh terminal window or tab.
 
