@@ -19,3 +19,9 @@ rust-create () {
     ls
 }
 
+rall () {
+    multirust run stable $*
+    multirust run beta $*
+    multirust run nightly $*
+}
+
