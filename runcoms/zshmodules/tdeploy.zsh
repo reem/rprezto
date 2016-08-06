@@ -10,10 +10,12 @@ alias tsa="tdeploy service start"
 alias tso="tdeploy service stop"
 alias tsp="tdeploy service publish"
 alias tsl="tdeploy service list"
+alias tsi="tdeploy service interactive"
 
 alias tst="tdeploy store"
 alias tstf="tdeploy store fork --thawed"
 alias tstd="tdeploy store destroy"
+alias tstls="tdeploy store list"
 
 alias tssh="tact-ssh-to-main -d "
 alias tup="tact-spinup-cluster"

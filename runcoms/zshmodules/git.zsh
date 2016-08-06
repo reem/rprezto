@@ -24,8 +24,22 @@ alias gre='git reset'
 # Hub aliases
 alias gpr="git pull-request"
 
-gst () {
-    pbpaste | gist -c
+# opening files
+
+# open edited
+alias goe='g eop'
+
+# open merge
+alias gom='g mop'
+
+# open grep
+alias gog='g gop'
+
+# open name
+alias gn='g op'
+
+pbgst () {
+    pbpaste | gist -c $*
 }
 
 clone () {

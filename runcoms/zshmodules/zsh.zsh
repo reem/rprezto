@@ -22,6 +22,17 @@ scd () { quiet cd $* }
 
 srm () { rm -f $* }
 
+interval () {
+  local time=$1
+  shift
+
+  while true; do $*; sleep $time; done
+}
+
+sync () {
+  interval 1 rsync -az --itemize-changes $*
+}
+
 # Safer curl | sh
 curlish () {
     if [ $# != 2 ]; then
