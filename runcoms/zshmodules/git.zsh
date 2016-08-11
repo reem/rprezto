@@ -50,6 +50,12 @@ fzgc () {
     git checkout $($* | fzf)
 }
 
+fzgsh () {
+    local commit=$($* | fzf)
+    if [[ -z $commit ]]; then return 1; fi
+    git show $($* | fzf)
+}
+
 # open fuzzy name
 gfn () {
     fzo git ls-files $(git rev-parse --show-toplevel)
@@ -65,11 +71,12 @@ gfs () {
     $(git editor) +"$line" "$file"
 }
 
-# change branch with fuzzy search
+# change branch with branch fuzzy search
 gfb () {
     fzgc git branch
 }
 
+# change branch from tag fuzzy search
 gft () {
     fzgc git tag --list
 }
