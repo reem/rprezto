@@ -38,9 +38,40 @@ gog () { g gop $*; }
 # open name
 gn () { g op $*; }
 
+fzo () {
+    local file=$($* | fzf);
+    if [[ -z $file ]]; then return 1; fi
+    $(git editor) $file
+}
+
+fzgc () {
+    local commit=$($* | fzf)
+    if [[ -z $commit ]]; then return 1; fi
+    git checkout $($* | fzf)
+}
+
 # open fuzzy name
 gfn () {
-  $(git editor) $(g ls-files | fzf)
+    fzo git ls-files $(git rev-parse --show-toplevel)
+}
+
+# open fuzzy search
+gfs () {
+    local raw_selection="$(git grep -n '.*' | fzf)";
+    if [[ -z $selection ]]; then return 1; fi
+    local selection=${raw_selection%:*}; 
+    local file=${selection%:*};
+    local line=${selection##*:};
+    $(git editor) +"$line" "$file"
+}
+
+# change branch with fuzzy search
+gfb () {
+    fzgc git branch
+}
+
+gft () {
+    fzgc git tag --list
 }
 
 pbgst () {
