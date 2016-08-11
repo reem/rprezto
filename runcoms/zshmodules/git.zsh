@@ -39,21 +39,21 @@ gog () { g gop $*; }
 gn () { g op $*; }
 
 fzo () {
-    local file=$($* | fzf);
-    if [[ -z $file ]]; then return 1; fi
-    $(git editor) $file
+    local files=$($* | fzf -m);
+    if [[ -z $files ]]; then return 1; fi
+    $(git editor) $=files
 }
 
 fzgc () {
     local commit=$($* | fzf)
     if [[ -z $commit ]]; then return 1; fi
-    git checkout $($* | fzf)
+    git checkout $commit
 }
 
 fzgsh () {
-    local commit=$($* | fzf)
-    if [[ -z $commit ]]; then return 1; fi
-    git show $($* | fzf)
+    local commits=$($* | fzf -m)
+    if [[ -z $commits ]]; then return 1; fi
+    git show $=commits
 }
 
 # open fuzzy name
@@ -64,8 +64,8 @@ gfn () {
 # open fuzzy search
 gfs () {
     local raw_selection="$(git grep -n '.*' | fzf)";
-    if [[ -z $selection ]]; then return 1; fi
-    local selection=${raw_selection%:*}; 
+    if [[ -z $raw_selection ]]; then return 1; fi
+    local selection=${raw_selection%:*};
     local file=${selection%:*};
     local line=${selection##*:};
     $(git editor) +"$line" "$file"
@@ -79,6 +79,15 @@ gfb () {
 # change branch from tag fuzzy search
 gft () {
     fzgc git tag --list
+}
+
+frequent () {
+    fasd -s | awk '{print $2}'
+}
+
+# fuzzy search frequent files
+jf () {
+   fzo frequent
 }
 
 pbgst () {
@@ -147,4 +156,3 @@ gprq () {
         gpr -b "$to:master" -h "$from:$current_branch"
     fi
 }
-
