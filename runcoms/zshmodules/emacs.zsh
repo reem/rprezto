@@ -1,1 +1,1 @@
-alias em="emacsclient -q -c"
+alias em="emacsclient -q -nw"

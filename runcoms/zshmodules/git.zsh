@@ -27,16 +27,21 @@ alias gpr="git pull-request"
 # opening files
 
 # open edited
-alias goe='g eop'
+goe () { g eop; }
 
 # open merge
-alias gom='g mop'
+gom () { g mop; }
 
 # open grep
-alias gog='g gop'
+gog () { g gop $*; }
 
 # open name
-alias gn='g op'
+gn () { g op $*; }
+
+# open fuzzy name
+gfn () {
+  $(git editor) $(g ls-files | fzf)
+}
 
 pbgst () {
     pbpaste | gist -c $*
