@@ -16,6 +16,3 @@
 [submodule "modules/prompt/functions/pure"]
 	path = modules/prompt/external/pure
 	url = https://github.com/sindresorhus/pure.git
-[submodule "runcoms/zshmodules/watch"]
-	path = runcoms/zshmodules/watch
-	url = git://github.com/reem/watch.git
