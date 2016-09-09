@@ -68,9 +68,22 @@ tsync () {
 
   local ctid=$(tctid $domain $service)
 
-  KEY=~/.ssh/terminal-dev-default
+  rsync -e "ssh" --itemize-changes -az $@ $src root@$domain.test-cluster.com:/vz/root/$ctid/$dst
+}
 
-  rsync -e "ssh -i $KEY" --itemize-changes -az $@ $src root@$domain.test-cluster.com:/vz/root/$ctid/$dst
+tsyncd () {
+  local domain=$1
+  shift
+  local service=$1
+  shift
+  local src=$1
+  shift
+  local dst=$1
+  shift
+
+  local ctid=$(tctid $domain $service)
+
+  rsync -e "ssh" --itemize-changes -az $@ root@$domain.test-cluster.com:/vz/root/$ctid/$src $dst
 }
 
 tctid () {
