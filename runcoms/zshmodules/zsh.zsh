@@ -23,14 +23,21 @@ scd () { quiet cd $* }
 srm () { rm -f $* }
 
 interval () {
-  local time=$1
-  shift
+    local time=$1
+    shift
 
-  while true; do $*; sleep $time; done
+    while true; do $*; sleep $time; done
 }
 
 sync () {
-  interval 1 rsync -az --itemize-changes $*
+    interval 1 rsync -az --itemize-changes $*
+}
+
+rpeat () {
+    local times=$1;
+    shift;
+
+    for i in {1..$times}; do $*; done
 }
 
 # Safer curl | sh
