@@ -3,6 +3,10 @@
 
 fignore+=(.lock)
 
+slp () {
+    m sleep
+}
+
 replace () {
     local find_this=$1
     shift

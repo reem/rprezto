@@ -20,8 +20,14 @@ rust-create () {
 }
 
 rall () {
-    multirust run stable $*
-    multirust run beta $*
-    multirust run nightly $*
+    rustup run stable $*
+    rustup run beta $*
+    rustup run nightly $*
 }
 
+alias cr='cargo run';
+alias cre='cargo run --example';
+alias cb='cargo build';
+alias ct='cargo test';
+alias cbr='cargo build --release';
+alias c='cargo';

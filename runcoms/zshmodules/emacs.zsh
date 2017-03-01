@@ -1,1 +1,4 @@
-alias em="emacsclient -q -nw"
+em () {
+    TERM=xterm emacsclient -q -nw $*
+}
+
