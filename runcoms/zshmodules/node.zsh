@@ -6,4 +6,5 @@ alias nig="npm install -g"
 alias nis="npm install --save"
 alias nisd="npm install --save-dev"
 alias ns="npm start"
+alias ncl="rm -rf ./node_modules"
 

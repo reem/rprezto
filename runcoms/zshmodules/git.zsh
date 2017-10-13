@@ -7,7 +7,6 @@ alias ga='git add'
 alias gb='git branch'
 alias gc='git commit -v'
 alias gd='git diff'
-alias gdl='git diff HEAD HEAD~1'
 alias goto='git checkout'
 alias gk='gitk--all&'
 alias gx='gitx --all'
@@ -156,4 +155,12 @@ gprq () {
     else
         gpr -b "$to:master" -h "$from:$current_branch"
     fi
+}
+
+gprqu () {
+    gprq udacity udacity $*
+}
+
+gdl () {
+    git diff HEAD~1
 }
