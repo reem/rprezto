@@ -72,3 +72,7 @@ if [[ ! -d "$TMPDIR" ]]; then
 fi
 
 TMPPREFIX="${TMPDIR%/}/zsh"
+
+editorCmd () {
+    TERM=xterm emacsclient -q -nw -a /usr/local/bin/vim $*
+}

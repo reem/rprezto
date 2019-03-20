@@ -21,13 +21,28 @@ alias gpum='git push upstream master'
 alias gre='git reset'
 alias gfrom='git fetch && git rebase origin/master'
 
+alias gunc='git reset --soft HEAD~1'
+alias guncf='git reset --hard HEAD~1'
+
 # Hub aliases
 alias gpr="git pull-request"
 
 # opening files
 
+gautostage () {
+    local branch=$(git rev-parse --abbrev-ref HEAD)
+
+    git branch -D reem--autostage
+    git checkout -b reem--autostage
+    git push origin reem--autostage --force
+
+    git checkout $branch
+}
+
 # open edited
-goe () { g eop; }
+goe () {
+    editorCmd $(git ls-files --modified)
+}
 
 # open merge
 gom () { g mop; }
