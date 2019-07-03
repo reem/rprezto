@@ -16,6 +16,15 @@ replace () {
     ag -l $find_this $* | xargs sed -i '' "s/$find_this/$replace_with/g"
 }
 
+replaceu () {
+    local replace_with=$1
+    shift
+    local find_this=$1
+    shift
+
+    replace $find_this $replace_with $*
+}
+
 cl () { clear; ls }
 
 rimraf () { rm -rf $* }
